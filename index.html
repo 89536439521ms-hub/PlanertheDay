@@ -3,83 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Арина: режим дня | 5ч и 5,5ч бодрствования</title>
+    <title> Здоровый сон </title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
-            background: #f4efe6;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            padding: 24px 16px;
+            background: linear-gradient(145deg, #f4efe6 0%, #e8e0d4 100%);
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            padding: 20px;
             color: #2c3e2a;
+            min-height: 100vh;
+        }
+
+        .floating-timer {
+            position: sticky;
+            top: 16px;
+            z-index: 100;
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            background: rgba(255, 253, 245, 0.98);
+            backdrop-filter: blur(12px);
+            border-radius: 80px;
+            padding: 12px 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border: 1px solid #fff0e0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .timer-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .next-event {
+            background: #7faa5f20;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .countdown {
+            font-family: monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4a673b;
+            letter-spacing: 2px;
+            background: #eef3e8;
+            padding: 4px 16px;
+            border-radius: 60px;
+        }
+        .current-time {
+            font-size: 0.9rem;
+            color: #6c7a5f;
+            background: #f0ede4;
+            padding: 6px 16px;
+            border-radius: 60px;
         }
         .wrapper {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         .card {
-            background: #fffdf9;
-            border-radius: 40px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-            padding: 24px 28px;
-            margin-bottom: 28px;
-            border: 1px solid #f0e5d8;
+            background: rgba(255, 253, 249, 0.96);
+            border-radius: 56px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            padding: 28px 32px;
+            border: 1px solid #fff3e8;
         }
         h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             display: flex;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            color: #4a673b;
-            margin-bottom: 8px;
+            color: #3b5c2c;
         }
         h1 small {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             background: #eef3e8;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-weight: normal;
+            padding: 4px 16px;
+            border-radius: 60px;
+            font-weight: 500;
         }
         .sub {
             color: #6f745c;
-            padding-left: 14px;
+            padding-left: 16px;
             border-left: 4px solid #bdd6aa;
-            margin-bottom: 24px;
+            margin: 16px 0 28px 0;
             font-size: 0.95rem;
         }
         .step-badge {
             display: inline-block;
-            background: #e2d9cd;
+            background: #e7dfd1;
             border-radius: 60px;
-            padding: 4px 14px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #4c5b3c;
-            margin-bottom: 16px;
+            padding: 6px 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
         .input-row {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
-            margin-bottom: 28px;
-            align-items: flex-end;
+            margin-bottom: 32px;
         }
         .input-group {
             flex: 1;
-            min-width: 160px;
-            position: relative;
+            min-width: 170px;
         }
         label {
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 8px;
+            margin-bottom: 8px;
             color: #47663a;
             font-size: 0.85rem;
         }
@@ -87,9 +132,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 16px;
-            height: 16px;
-            background: #cddbc0;
+            width: 18px;
+            height: 18px;
+            background: #dad1c2;
             border-radius: 50%;
             font-size: 11px;
             font-weight: bold;
@@ -105,115 +150,105 @@
             background: #2e3d28;
             color: white;
             font-size: 0.7rem;
-            font-weight: normal;
             white-space: nowrap;
             padding: 6px 12px;
             border-radius: 20px;
             z-index: 10;
-            width: max-content;
-            max-width: 250px;
-            white-space: normal;
-            line-height: 1.3;
         }
         input[type="time"] {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             font-size: 1.1rem;
             font-family: monospace;
-            border: 1.5px solid #ddd0bc;
+            border: 1.5px solid #e2d4c2;
             border-radius: 60px;
             background: white;
-            transition: 0.2s;
+            transition: all 0.2s;
         }
         input[type="time"]:focus {
-            border-color: #91b37a;
+            border-color: #9bbc7b;
             outline: none;
-            box-shadow: 0 0 0 3px #e1efd4;
+            box-shadow: 0 0 0 3px rgba(155, 188, 123, 0.2);
         }
         .checkbox-group {
             background: #f8f5ed;
             border-radius: 60px;
-            padding: 10px 20px;
-            margin: 16px 0 8px;
+            padding: 10px 22px;
+            margin: 16px 0 12px;
             display: inline-flex;
             align-items: center;
             gap: 12px;
         }
-        button {
-            background: #7faa5f;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 60px;
-            font-weight: bold;
-            font-size: 1rem;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            width: auto;
-            min-width: 160px;
-            font-family: inherit;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        button:hover {
-            background: #689048;
-            transform: scale(0.97);
-        }
         .result-panel {
-            background: #f6f9f0;
-            border-radius: 32px;
-            padding: 20px 24px;
-            margin-top: 20px;
+            background: #fcfaf5;
+            border-radius: 36px;
+            padding: 24px 28px;
+            margin-top: 28px;
             border-left: 8px solid #7faa5f;
         }
         .result-panel h3 {
             font-size: 1.4rem;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             color: #3b5c2c;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         .time-badge {
             background: white;
-            padding: 6px 18px;
+            padding: 6px 20px;
             border-radius: 60px;
-            font-weight: bold;
+            font-weight: 700;
             font-family: monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             display: inline-block;
             margin: 5px 8px 5px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #dfd3c1;
+            border: 1px solid #e2d3bf;
+        }
+        .time-badge-small {
+            background: #f5efe5;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 3px 6px 3px 0;
         }
         .schedule-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 12px;
-            margin: 16px 0;
-            background: #fef9f0;
-            padding: 16px;
-            border-radius: 28px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+            margin: 20px 0;
+            background: #fffbf4;
+            padding: 20px;
+            border-radius: 32px;
         }
         .schedule-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
             font-size: 0.9rem;
+            padding: 8px 10px;
+            border-radius: 60px;
         }
         .schedule-item .emoji {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            min-width: 44px;
+        }
+        .sleep-detail {
+            font-size: 0.75rem;
+            color: #8b8e72;
+            margin-top: 2px;
         }
         .graph-container {
-            margin: 24px 0 16px;
+            margin: 28px 0 20px;
             background: #ffffff;
             border-radius: 32px;
-            padding: 16px 12px 12px;
+            padding: 20px 12px 16px;
             box-shadow: inset 0 0 0 1px #ede3d6;
         }
         .legend {
             display: flex;
-            gap: 20px;
-            margin-top: 12px;
+            gap: 24px;
+            margin-top: 20px;
             font-size: 0.7rem;
             justify-content: center;
             flex-wrap: wrap;
@@ -223,81 +258,85 @@
             width: 18px;
             height: 18px;
             border-radius: 20px;
-            margin-right: 6px;
+            margin-right: 8px;
             vertical-align: middle;
         }
         hr {
-            margin: 20px 0;
+            margin: 24px 0;
             border: 0;
             height: 1px;
-            background: #e7ddcf;
+            background: linear-gradient(90deg, #e2d5c2, transparent);
         }
         .note {
             font-size: 0.8rem;
-            color: #7f8068;
+            color: #7c8068;
             margin-top: 12px;
         }
         .info-box {
             background: #f0f3ea;
-            border-radius: 24px;
-            padding: 12px 18px;
-            margin-bottom: 20px;
+            border-radius: 28px;
+            padding: 14px 22px;
+            margin-bottom: 24px;
             font-size: 0.85rem;
+            line-height: 1.4;
         }
         .window-highlight {
             background: #eef3e0;
-            border-radius: 20px;
-            padding: 6px 12px;
+            border-radius: 40px;
+            padding: 4px 14px;
             display: inline-block;
-            margin: 4px 0;
+            margin: 4px 6px 4px 0;
+            font-weight: 500;
         }
         @media (max-width: 700px) {
-            .card { padding: 18px; }
-            .input-row { flex-direction: column; gap: 12px; }
+            .card { padding: 20px; }
+            .input-row { flex-direction: column; gap: 16px; }
             .schedule-grid { grid-template-columns: 1fr; }
+            .floating-timer { flex-direction: column; align-items: stretch; text-align: center; }
+            .countdown { font-size: 1.2rem; text-align: center; }
         }
     </style>
 </head>
 <body>
+<div class="floating-timer" id="floatingTimer">
+    <div class="timer-info">
+        <div class="current-time" id="currentTimeDisplay">--:--</div>
+        <div class="next-event" id="nextEventName">Следующий этап</div>
+    </div>
+    <div class="countdown" id="countdownDisplay">--:--:--</div>
+</div>
+
 <div class="wrapper">
     <div class="card">
-        <h1>🌼 Арина · Полный режим дня <small>2 года 4 месяца</small></h1>
+        <h1>🌼 Умный режим дня <small> для 2 лет </small></h1>
         <div class="sub">
             ⏱️ Окна бодрствования: 
-            <span class="window-highlight">📈 5 часов (подъём → дневной сон)</span> → 
-            <span class="window-highlight">😴 дневной сон</span> → 
-            <span class="window-highlight">📈 5,5 часов (пробуждение → отбой)</span>
+            <span class="window-highlight">📈 5 часов (подъём → начало укладывания на дневной сон)</span>
+            <span class="window-highlight">📈 5,5 часов (пробуждение от дневного сна → начало укладывания на ночной сон)</span>
+            <span class="window-highlight">😴 Засыпание через 30 минут после укладывания</span>
         </div>
-        
+
         <div class="info-box">
-            💡 <strong>Порядок дня (окна бодрствования 5ч и 5,5ч):</strong><br>
-            🍳 Завтрак — через 30 мин после подъёма (30 мин)<br>
-            🚶‍♀️ Утренняя прогулка — заканчивается за 1,5 часа до дневного сна<br>
-            🍲 Обед — за 30 мин до дневного сна (30 мин)<br>
-            😴 <strong>Дневной сон</strong> (начало через 5ч после подъёма)<br>
-            🍎 Полдник — через 30 мин после дневного сна (30 мин)<br>
-            🚶‍♀️ Вечерняя прогулка — заканчивается за 1,5 часа до отбоя<br>
-            🍽️ Ужин — после вечерней прогулки, за 1 час до отбоя (30 мин)<br>
-            🛌 <strong>Отбой</strong> (через 5,5ч после окончания дневного сна)
+            💡 <strong>Важно:</strong> «Укладывание» — это момент, когда вы выключаете свет и ребёнок лежит в кроватке.<br>
+            😴 <strong>Засыпание</strong> происходит через 30 минут после укладывания.<br>
+            📊 <strong>Для дневного сна</strong> вы вводите фактическое время ЗАСЫПАНИЯ и ПРОБУЖДЕНИЯ.<br>
+            📋 <strong>Порядок дня:</strong> Завтрак → Утренняя прогулка → Обед → Укладывание на дневной сон → Засыпание → Полдник → Вечерняя прогулка → Ужин → Укладывание на ночной сон
         </div>
 
         <!-- ЭТАП 1 -->
-        <div class="step-badge">📌 ЭТАП 1 · Ориентир по утру (окно 5ч)</div>
+        <div class="step-badge">📌 Ориентир по утру (окно 5ч до укладывания)</div>
         <div class="input-row">
             <div class="input-group">
                 <label>🌞 Утренний подъём (фиксированная цель)</label>
                 <input type="time" id="wakeUpTime" value="07:00">
                 <div class="note">★ Основа режима — подъём в одно и то же время ±15 мин.</div>
             </div>
-            <div class="input-group">
-                <button id="calcStep1Btn" style="background:#9baf87;">📋 Рассчитать первичный график</button>
-            </div>
         </div>
-        <div id="step1Result" class="result-panel" style="background:#fcf8ef;">
+        <div id="step1Result" class="result-panel">
             <h3>🌙 Первичный график (по подъёму)</h3>
-            <p>🕒 <strong>Начало дневного сна</strong> (через 5ч после подъёма): <span id="idealNapStart" class="time-badge">—:—</span></p>
-            <p>💡 <strong>Рекомендуемая длительность дневного сна</strong>: 1,5–2 часа<br>
-            <span class="note">(окончание: <span id="idealNapEndRange" class="time-badge">—:—</span>)</span></p>
+            <p>🕒 <strong>Начало укладывания на дневной сон</strong> (через 5ч после подъёма): <span id="idealNapPutDown" class="time-badge">—:—</span><br>
+            <span class="time-badge-small">😴 Ожидаемое засыпание: <span id="idealNapSleepStart">—:—</span> (+30 мин)</span><br>
+            <span class="time-badge-small">🌤️ Ожидаемое пробуждение: <span id="idealNapWakeRange" class="time-badge">—:—</span> (через 1,5–2ч после засыпания)</span></p>
             <div id="step1Schedule" class="schedule-grid"></div>
             <div class="graph-container" id="step1Graph"></div>
         </div>
@@ -305,32 +344,32 @@
         <hr>
 
         <!-- ЭТАП 2 -->
-        <div class="step-badge">📌 ЭТАП 2 · Фактический дневной сон → финальный режим (окно 5,5ч)</div>
+        <div class="step-badge">📌 Фактический дневной сон → финальный режим</div>
         <div class="input-row">
             <div class="input-group">
-                <label>😴 Начало дневного сна <span class="tooltip-icon" data-tooltip="По умолчанию через 5ч после подъёма. Можно изменить вручную">?</span></label>
-                <input type="time" id="napStartActual" value="12:00">
+                <label>😴 Засыпание (дневной сон)</label>
+                <input type="time" id="napSleepActual" value="12:30">
+                <div class="note">время, когда ребёнок уснул</div>
             </div>
             <div class="input-group">
-                <label>🌤️ Окончание дневного сна <span class="tooltip-icon" data-tooltip="Фактическое время пробуждения после дневного сна">?</span></label>
-                <input type="time" id="napEndActual" value="13:45">
-            </div>
-            <div class="input-group">
-                <button id="calcStep2Btn">✨ Рассчитать финальный режим</button>
+                <label>🌤️ Пробуждение (дневной сон)</label>
+                <input type="time" id="napWakeActual" value="14:00">
+                <div class="note">время, когда ребёнок проснулся</div>
             </div>
         </div>
         <div class="checkbox-group">
             <input type="checkbox" id="shortNapFlag">
-            <label>⚠️ Дневной сон длился МЕНЕЕ 1 часа → сдвинуть отбой раньше на 45 мин</label>
+            <label>⚠️ Дневной сон длился МЕНЕЕ 1 часа → сдвинуть вечернее укладывание на 45 мин раньше</label>
         </div>
 
         <div id="finalResult" class="result-panel">
             <h3>⭐ Финальный режим дня</h3>
             <div id="finalSchedule" class="schedule-grid"></div>
-            <p>🛌 <strong>Время отбоя (свет выключен)</strong>: <span id="finalBedtime" class="time-badge">—:—</span><br>
-            <span class="note">(через 5,5 часов после окончания дневного сна)</span></p>
-            <p id="bedtimeExplanation" style="font-size:0.9rem;"></p>
-            <div id="shortNapAdvice" style="background:#fbeed8; border-radius: 24px; padding: 8px 14px; margin: 12px 0;"></div>
+            <p>🛌 <strong>Начало укладывания на ночной сон</strong>: <span id="finalBedtime" class="time-badge">—:—</span><br>
+            <span class="time-badge-small">😴 Ожидаемое засыпание: <span id="finalSleepStart">—:—</span> (+30 мин)</span><br>
+            <span class="note">(через 5,5 часов после ПРОБУЖДЕНИЯ от дневного сна)</span></p>
+            <p id="bedtimeExplanation" style="font-size:0.9rem; background:#eef3e8; padding:10px 16px; border-radius:28px; margin:12px 0;"></p>
+            <div id="shortNapAdvice" style="background:#fbeed8; border-radius: 24px; padding: 12px 16px; margin: 12px 0;"></div>
             <div class="graph-container" id="fullDayGraph"></div>
             <div class="legend">
                 <div><span style="background:#aac8e0;"></span> 🌙 Ночной сон</div>
@@ -338,362 +377,451 @@
                 <div><span style="background:#bdd4a5;"></span> 🚶‍♀️ Утренняя прогулка</div>
                 <div><span style="background:#9bc47c;"></span> 🚶‍♀️ Вечерняя прогулка</div>
                 <div><span style="background:#ffe0a3;"></span> 🍽️ Приём пищи</div>
+                <div><span style="background:#e6d9c8;"></span> 🛌 Укладывание (30 мин до засыпания)</div>
                 <div><span style="background:#f4e0b2;"></span> ⏰ Бодрствование</div>
             </div>
             <div class="note" style="margin-top: 14px;">
-                🕯️ <strong>Важно:</strong> первый интервал бодрствования — 5 часов (подъём → дневной сон).<br>
-                Второй интервал бодрствования — 5,5 часов (окончание дневного сна → отбой).<br>
-                Утренняя прогулка заканчивается за 1,5 ч до дневного сна, вечерняя — за 1,5 ч до отбоя.
+                🕯️ <strong>Важно:</strong><br>
+                • Дневной сон: вы вводите фактическое ЗАСЫПАНИЕ и ПРОБУЖДЕНИЕ<br>
+                • Ночной сон: укладывание = пробуждение от дневного сна + 5,5 часов<br>
+                • Засыпание ожидается через 30 минут после укладывания<br>
+                • Ритуал начинайте за 30–40 минут до укладывания
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // ========== Утилиты времени ==========
-    function toMinutes(timeStr) {
-        if (!timeStr) return null;
-        let parts = timeStr.split(':');
-        if (parts.length < 2) return null;
-        let h = parseInt(parts[0], 10);
-        let m = parseInt(parts[1], 10);
-        if (isNaN(h) || isNaN(m)) return null;
-        return h * 60 + m;
-    }
-    
-    function minutesToTime(minutes) {
-        if (minutes === null || isNaN(minutes)) return '—:—';
-        let total = Math.round(minutes) % (24 * 60);
-        if (total < 0) total += 24 * 60;
-        let h = Math.floor(total / 60);
-        let m = total % 60;
-        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-    }
-    
-    function formatInterval(startMin, endMin) {
-        if (startMin === null || endMin === null) return '—:— – —:—';
-        return `${minutesToTime(startMin)} – ${minutesToTime(endMin)}`;
-    }
-    
-    // ========== Расчёт всех событий с новыми окнами ==========
-    // первое окно: 5 часов (300 мин)
-    // второе окно: 5,5 часов (330 мин)
-    const FIRST_WAKE_WINDOW = 5 * 60;      // 300 мин
-    const SECOND_WAKE_WINDOW = 5.5 * 60;   // 330 мин
-    
-    function calculateAllEvents(wakeMin, napStartMin, napEndMin, bedtimeMin) {
-        if (wakeMin === null) return null;
-        
-        // Завтрак: через 30 мин после подъёма, 30 мин
-        const breakfastStart = wakeMin + 30;
-        const breakfastEnd = breakfastStart + 30;
-        
-        // Утренняя прогулка: заканчивается за 1.5 часа до дневного сна
-        let morningWalkStart = null, morningWalkEnd = null;
-        if (napStartMin !== null) {
-            morningWalkEnd = napStartMin - 90;
-            morningWalkStart = morningWalkEnd - 75;
+    (function(){
+        // ----- константы -----
+        const FIRST_WINDOW = 5 * 60;        // 5 часов до укладывания на дневной сон
+        const SECOND_WINDOW = 5.5 * 60;     // 5.5 часов от пробуждения до укладывания на ночной сон
+        const FALL_ASLEEP_DELAY = 30;       // 30 минут до засыпания
+
+        // ----- DOM элементы -----
+        const wakeInput = document.getElementById('wakeUpTime');
+        const napSleepInput = document.getElementById('napSleepActual');
+        const napWakeInput = document.getElementById('napWakeActual');
+        const shortNapCheck = document.getElementById('shortNapFlag');
+
+        // ----- вспомогательные функции -----
+        function toMinutes(timeStr) {
+            if (!timeStr) return null;
+            let parts = timeStr.split(':');
+            if (parts.length < 2) return null;
+            let h = parseInt(parts[0], 10);
+            let m = parseInt(parts[1], 10);
+            return isNaN(h) || isNaN(m) ? null : h * 60 + m;
         }
-        
-        // Обед: за 30 мин до дневного сна, 30 мин
-        let lunchStart = null, lunchEnd = null;
-        if (napStartMin !== null) {
-            lunchStart = napStartMin - 30;
-            lunchEnd = lunchStart + 30;
+
+        function minutesToTime(minutes) {
+            if (minutes === null || isNaN(minutes)) return '—:—';
+            let total = Math.round(minutes) % (24 * 60);
+            if (total < 0) total += 24 * 60;
+            let h = Math.floor(total / 60);
+            let m = total % 60;
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
         }
-        
-        // Полдник: через 30 мин после дневного сна, 30 мин
-        let afternoonSnackStart = null, afternoonSnackEnd = null;
-        if (napEndMin !== null) {
-            afternoonSnackStart = napEndMin + 30;
-            afternoonSnackEnd = afternoonSnackStart + 30;
+
+        function formatInterval(start, end) {
+            if (start === null || end === null) return '—:— – —:—';
+            return `${minutesToTime(start)} – ${minutesToTime(end)}`;
         }
-        
-        // Вечерняя прогулка: заканчивается за 1.5 часа до отбоя, длительность ~1ч15м
-        let eveningWalkStart = null, eveningWalkEnd = null;
-        if (bedtimeMin !== null) {
-            eveningWalkEnd = bedtimeMin - 90;
-            eveningWalkStart = eveningWalkEnd - 75;
+
+        function getCurrentMinutes() {
+            const now = new Date();
+            return now.getHours() * 60 + now.getMinutes();
         }
-        
-        // Ужин: за 1 час до отбоя, 30 мин
-        let dinnerStart = null, dinnerEnd = null;
-        if (bedtimeMin !== null) {
-            dinnerStart = bedtimeMin - 60;
-            dinnerEnd = dinnerStart + 30;
-        }
-        
-        return {
-            breakfast: { start: breakfastStart, end: breakfastEnd },
-            morningWalk: { start: morningWalkStart, end: morningWalkEnd },
-            lunch: { start: lunchStart, end: lunchEnd },
-            afternoonSnack: { start: afternoonSnackStart, end: afternoonSnackEnd },
-            eveningWalk: { start: eveningWalkStart, end: eveningWalkEnd },
-            dinner: { start: dinnerStart, end: dinnerEnd }
-        };
-    }
-    
-    // Отрисовка расписания
-    function renderSchedule(containerId, events) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        const items = [
-            { emoji: "🍳", name: "Завтрак", time: formatInterval(events.breakfast?.start, events.breakfast?.end) },
-            { emoji: "🚶‍♀️", name: "Утренняя прогулка", time: formatInterval(events.morningWalk?.start, events.morningWalk?.end), note: "за 1,5 ч до дневного сна" },
-            { emoji: "🍲", name: "Обед", time: formatInterval(events.lunch?.start, events.lunch?.end) },
-            { emoji: "😴", name: "Дневной сон", time: formatInterval(events.lunch?.end, events.afternoonSnack?.start), note: "начало через 5ч после подъёма" },
-            { emoji: "🍎", name: "Полдник", time: formatInterval(events.afternoonSnack?.start, events.afternoonSnack?.end) },
-            { emoji: "🚶‍♀️", name: "Вечерняя прогулка", time: formatInterval(events.eveningWalk?.start, events.eveningWalk?.end), note: "за 1,5 ч до отбоя" },
-            { emoji: "🍽️", name: "Ужин", time: formatInterval(events.dinner?.start, events.dinner?.end) }
-        ];
-        
-        container.innerHTML = items.map(item => `
-            <div class="schedule-item">
-                <span class="emoji">${item.emoji}</span>
-                <span><strong>${item.name}</strong><br>${item.time}${item.note ? `<br><span style="font-size:0.7rem; color:#7c8a6a;">${item.note}</span>` : ''}</span>
-            </div>
-        `).join('');
-    }
-    
-    // Отрисовка графика со снами
-    function renderTimeline(canvasId, nightStartMin, nightEndMin, dayStartMin, dayEndMin, events, wakeMin) {
-        const container = document.getElementById(canvasId);
-        if (!container) return;
-        container.innerHTML = '';
-        const wrapper = document.createElement('div');
-        wrapper.style.width = '100%';
-        wrapper.style.overflowX = 'auto';
-        
-        // Часы
-        const hoursDiv = document.createElement('div');
-        hoursDiv.style.display = 'flex';
-        hoursDiv.style.gap = '2px';
-        hoursDiv.style.minWidth = '720px';
-        for (let h = 0; h < 24; h++) {
-            let block = document.createElement('div');
-            block.style.flex = '1';
-            block.style.textAlign = 'center';
-            block.style.fontSize = '10px';
-            block.innerText = h;
-            hoursDiv.appendChild(block);
-        }
-        
-        // Бары
-        const barsDiv = document.createElement('div');
-        barsDiv.style.display = 'flex';
-        barsDiv.style.gap = '2px';
-        barsDiv.style.minWidth = '720px';
-        barsDiv.style.height = '38px';
-        barsDiv.style.marginTop = '8px';
-        
-        for (let hour = 0; hour < 24; hour++) {
-            const seg = document.createElement('div');
-            seg.style.flex = '1';
-            seg.style.height = '32px';
-            seg.style.borderRadius = '14px';
-            seg.style.margin = '0 1px';
+
+        // ----- расчёт всех событий -----
+        // wakeMin - подъём
+        // napSleepMin - время засыпания (дневной сон)
+        // napWakeMin - время пробуждения (дневной сон)
+        // bedtimePutDownMin - начало укладывания на ночной сон
+        function calculateAllEvents(wakeMin, napSleepMin, napWakeMin, bedtimePutDownMin) {
+            if (wakeMin === null) return null;
             
-            let isNight = false, isDay = false, isMeal = false, isMorningWalk = false, isEveningWalk = false;
-            const segStart = hour * 60;
-            const segEnd = (hour + 1) * 60;
+            // Укладывание на дневной сон = засыпание - 30 минут
+            const napPutDownMin = napSleepMin !== null ? napSleepMin - FALL_ASLEEP_DELAY : null;
+            const bedtimeSleepStart = bedtimePutDownMin !== null ? bedtimePutDownMin + FALL_ASLEEP_DELAY : null;
             
-            // Ночной сон
-            if (nightStartMin !== null && nightEndMin !== null) {
-                let startN = nightStartMin;
-                let endN = nightEndMin;
-                if (endN < startN) endN += 24 * 60;
-                if (segStart < endN && segEnd > startN) isNight = true;
+            // Завтрак: через 30 мин после подъёма, 30 мин
+            const breakfastStart = wakeMin + 30;
+            const breakfastEnd = breakfastStart + 30;
+
+            // Утренняя прогулка: заканчивается за 1.5 часа до УКЛАДЫВАНИЯ на дневной сон
+            let morningWalkStart = null, morningWalkEnd = null;
+            if (napPutDownMin !== null) {
+                morningWalkEnd = napPutDownMin - 90;
+                morningWalkStart = morningWalkEnd - 75;
+            }
+
+            // Обед: за 30 мин до УКЛАДЫВАНИЯ на дневной сон, 30 мин
+            let lunchStart = null, lunchEnd = null;
+            if (napPutDownMin !== null) {
+                lunchStart = napPutDownMin - 30;
+                lunchEnd = lunchStart + 30;
+            }
+
+            // Полдник: через 30 мин после ПРОБУЖДЕНИЯ от дневного сна, 30 мин
+            let snackStart = null, snackEnd = null;
+            if (napWakeMin !== null) {
+                snackStart = napWakeMin + 30;
+                snackEnd = snackStart + 30;
+            }
+
+            // Вечерняя прогулка: заканчивается за 1.5 часа до УКЛАДЫВАНИЯ на ночной сон
+            let eveningWalkStart = null, eveningWalkEnd = null;
+            if (bedtimePutDownMin !== null) {
+                eveningWalkEnd = bedtimePutDownMin - 90;
+                eveningWalkStart = eveningWalkEnd - 75;
+            }
+
+            // Ужин: за 1 час до УКЛАДЫВАНИЯ на ночной сон, 30 мин
+            let dinnerStart = null, dinnerEnd = null;
+            if (bedtimePutDownMin !== null) {
+                dinnerStart = bedtimePutDownMin - 60;
+                dinnerEnd = dinnerStart + 30;
+            }
+
+            return {
+                breakfast: { start: breakfastStart, end: breakfastEnd },
+                morningWalk: { start: morningWalkStart, end: morningWalkEnd },
+                lunch: { start: lunchStart, end: lunchEnd },
+                napPutDown: napPutDownMin,
+                napSleepStart: napSleepMin,
+                napWake: napWakeMin,
+                afternoonSnack: { start: snackStart, end: snackEnd },
+                eveningWalk: { start: eveningWalkStart, end: eveningWalkEnd },
+                dinner: { start: dinnerStart, end: dinnerEnd },
+                bedtimePutDown: bedtimePutDownMin,
+                bedtimeSleepStart: bedtimeSleepStart
+            };
+        }
+
+        // ----- отрисовка расписания -----
+        function renderSchedule(containerId, events) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            if (!events) {
+                container.innerHTML = '<div class="schedule-item">⚠️ Нет данных</div>';
+                return;
             }
             
-            // Дневной сон
-            if (dayStartMin !== null && dayEndMin !== null && dayStartMin >= 0 && dayEndMin <= 1440) {
-                if (segStart < dayEndMin && segEnd > dayStartMin) isDay = true;
-            }
+            const napSleepEnd = events.napWake;
+            const napSleepStart = events.napSleepStart;
             
-            // Приёмы пищи
-            if (!isNight && !isDay && events) {
-                const mealIntervals = [
-                    events.breakfast, events.lunch, events.afternoonSnack, events.dinner
-                ];
-                for (const meal of mealIntervals) {
-                    if (meal && meal.start !== null && meal.end !== null) {
-                        let startM = meal.start;
-                        let endM = meal.end;
-                        if (endM < startM) endM += 24 * 60;
-                        if (segStart < endM && segEnd > startM) {
-                            isMeal = true;
-                            break;
+            const items = [
+                { emoji: "🍳", name: "Завтрак", time: formatInterval(events.breakfast?.start, events.breakfast?.end) },
+                { emoji: "🚶‍♀️", name: "Утренняя прогулка", time: formatInterval(events.morningWalk?.start, events.morningWalk?.end) },
+                { emoji: "🍲", name: "Обед", time: formatInterval(events.lunch?.start, events.lunch?.end) },
+                { emoji: "🛌", name: "Укладывание (дневной сон)", time: minutesToTime(events.napPutDown), detail: "за 30 мин до засыпания" },
+                { emoji: "😴", name: "Дневной сон", time: formatInterval(napSleepStart, napSleepEnd) },
+                { emoji: "🍎", name: "Полдник", time: formatInterval(events.afternoonSnack?.start, events.afternoonSnack?.end) },
+                { emoji: "🚶‍♀️", name: "Вечерняя прогулка", time: formatInterval(events.eveningWalk?.start, events.eveningWalk?.end) },
+                { emoji: "🍽️", name: "Ужин", time: formatInterval(events.dinner?.start, events.dinner?.end) },
+                { emoji: "🛌", name: "Укладывание (ночной сон)", time: minutesToTime(events.bedtimePutDown), detail: "засыпание через 30 мин" }
+            ];
+            
+            container.innerHTML = items.map(item => `
+                <div class="schedule-item">
+                    <span class="emoji">${item.emoji}</span>
+                    <span><strong>${item.name}</strong><br>${item.time}${item.detail ? `<div class="sleep-detail">${item.detail}</div>` : ''}</span>
+                </div>
+            `).join('');
+        }
+
+        // ----- график -----
+        function renderTimeline(containerId, nightPutDownMin, nightSleepStart, nightEnd, dayPutDownMin, daySleepStart, dayEnd, events, wakeMin) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            const wrapper = document.createElement('div');
+            wrapper.style.width = '100%';
+            wrapper.style.overflowX = 'auto';
+
+            const hoursDiv = document.createElement('div');
+            hoursDiv.style.display = 'flex';
+            hoursDiv.style.gap = '2px';
+            hoursDiv.style.minWidth = '720px';
+            for (let h = 0; h < 24; h++) {
+                const block = document.createElement('div');
+                block.style.flex = '1';
+                block.style.textAlign = 'center';
+                block.style.fontSize = '10px';
+                block.innerText = h;
+                hoursDiv.appendChild(block);
+            }
+
+            const barsDiv = document.createElement('div');
+            barsDiv.style.display = 'flex';
+            barsDiv.style.gap = '2px';
+            barsDiv.style.minWidth = '720px';
+            barsDiv.style.height = '42px';
+            barsDiv.style.marginTop = '8px';
+
+            for (let hour = 0; hour < 24; hour++) {
+                const seg = document.createElement('div');
+                seg.style.flex = '1';
+                seg.style.height = '36px';
+                seg.style.borderRadius = '16px';
+                seg.style.margin = '0 1px';
+                const segStart = hour * 60;
+                const segEnd = (hour + 1) * 60;
+
+                let type = 'wake';
+
+                // Ночной сон (от засыпания до утра)
+                if (nightSleepStart !== null && nightEnd !== null) {
+                    let startN = nightSleepStart;
+                    let endN = nightEnd;
+                    if (endN < startN) endN += 24 * 60;
+                    if (segStart < endN && segEnd > startN) type = 'night';
+                }
+                // Укладывание перед ночным сном (30 мин)
+                if (type !== 'night' && nightPutDownMin !== null) {
+                    let startPD = nightPutDownMin;
+                    let endPD = nightPutDownMin + FALL_ASLEEP_DELAY;
+                    if (endPD < startPD) endPD += 24 * 60;
+                    if (segStart < endPD && segEnd > startPD) type = 'putdown';
+                }
+                // Дневной сон
+                if (type !== 'night' && type !== 'putdown' && daySleepStart !== null && dayEnd !== null) {
+                    if (segStart < dayEnd && segEnd > daySleepStart) type = 'day';
+                }
+                // Укладывание на дневной сон
+                if (type !== 'night' && type !== 'putdown' && type !== 'day' && dayPutDownMin !== null) {
+                    let startPD = dayPutDownMin;
+                    let endPD = dayPutDownMin + FALL_ASLEEP_DELAY;
+                    if (endPD < startPD) endPD += 24 * 60;
+                    if (segStart < endPD && segEnd > startPD) type = 'putdown';
+                }
+
+                if (type !== 'night' && type !== 'putdown' && type !== 'day' && events) {
+                    const meals = [events.breakfast, events.lunch, events.afternoonSnack, events.dinner];
+                    let isMeal = false;
+                    for (const m of meals) {
+                        if (m && m.start !== null && m.end !== null) {
+                            let s = m.start, e = m.end;
+                            if (e < s) e += 24 * 60;
+                            if (segStart < e && segEnd > s) { isMeal = true; break; }
+                        }
+                    }
+                    if (isMeal) type = 'meal';
+                    else {
+                        if (events.morningWalk && events.morningWalk.start !== null) {
+                            let s = events.morningWalk.start, e = events.morningWalk.end;
+                            if (e < s) e += 24 * 60;
+                            if (segStart < e && segEnd > s) type = 'morningWalk';
+                        }
+                        if (type !== 'morningWalk' && events.eveningWalk && events.eveningWalk.start !== null) {
+                            let s = events.eveningWalk.start, e = events.eveningWalk.end;
+                            if (e < s) e += 24 * 60;
+                            if (segStart < e && segEnd > s) type = 'eveningWalk';
                         }
                     }
                 }
-                
-                // Утренняя прогулка
-                if (!isMeal && events.morningWalk && events.morningWalk.start !== null && events.morningWalk.end !== null) {
-                    let startW = events.morningWalk.start;
-                    let endW = events.morningWalk.end;
-                    if (endW < startW) endW += 24 * 60;
-                    if (segStart < endW && segEnd > startW) isMorningWalk = true;
+
+                const colorMap = {
+                    night: '#aac8e0',
+                    day: '#c2dcae',
+                    meal: '#ffe0a3',
+                    morningWalk: '#bdd4a5',
+                    eveningWalk: '#9bc47c',
+                    putdown: '#e6d9c8',
+                    wake: '#f4e9d8'
+                };
+                seg.style.backgroundColor = colorMap[type] || '#f4e9d8';
+                barsDiv.appendChild(seg);
+            }
+
+            wrapper.appendChild(hoursDiv);
+            wrapper.appendChild(barsDiv);
+            container.appendChild(wrapper);
+        }
+
+        // ----- таймер -----
+        function getAllEventsInOrder(events, bedtimePutDown, wakeMin) {
+            if (!events) return [];
+            const order = [];
+            
+            const addIfValid = (name, start) => {
+                if (start !== null && start >= 0 && start < 1440) {
+                    order.push({ name, start, type: 'event' });
                 }
-                
-                // Вечерняя прогулка
-                if (!isMeal && !isMorningWalk && events.eveningWalk && events.eveningWalk.start !== null && events.eveningWalk.end !== null) {
-                    let startW = events.eveningWalk.start;
-                    let endW = events.eveningWalk.end;
-                    if (endW < startW) endW += 24 * 60;
-                    if (segStart < endW && segEnd > startW) isEveningWalk = true;
+            };
+            
+            addIfValid('🍳 Завтрак', events.breakfast?.start);
+            addIfValid('🚶‍♀️ Утренняя прогулка', events.morningWalk?.start);
+            addIfValid('🍲 Обед', events.lunch?.start);
+            addIfValid('🛌 Укладывание (дневной)', events.napPutDown);
+            addIfValid('🍎 Полдник', events.afternoonSnack?.start);
+            addIfValid('🚶‍♀️ Вечерняя прогулка', events.eveningWalk?.start);
+            addIfValid('🍽️ Ужин', events.dinner?.start);
+            addIfValid('🛌 Укладывание (ночной)', events.bedtimePutDown);
+            addIfValid('🌞 Подъём', wakeMin);
+            
+            order.sort((a, b) => a.start - b.start);
+            return order;
+        }
+        
+        function updateTimer(events, bedtimePutDown, wakeMin) {
+            const now = getCurrentMinutes();
+            const order = getAllEventsInOrder(events, bedtimePutDown, wakeMin);
+            
+            let nextEvent = null;
+            for (let i = 0; i < order.length; i++) {
+                if (order[i].start > now) {
+                    nextEvent = order[i];
+                    break;
                 }
+            }
+            if (!nextEvent && order.length > 0) {
+                nextEvent = order[0];
+                const timeUntil = (nextEvent.start + 1440 - now);
+                const hours = Math.floor(timeUntil / 60);
+                const minutes = timeUntil % 60;
+                document.getElementById('nextEventName').innerHTML = `➡️ ${nextEvent.name} (завтра)`;
+                document.getElementById('countdownDisplay').innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+                return;
             }
             
-            if (isNight) seg.style.backgroundColor = '#aac8e0';
-            else if (isDay) seg.style.backgroundColor = '#c2dcae';
-            else if (isMeal) seg.style.backgroundColor = '#ffe0a3';
-            else if (isMorningWalk) seg.style.backgroundColor = '#bdd4a5';
-            else if (isEveningWalk) seg.style.backgroundColor = '#9bc47c';
-            else seg.style.backgroundColor = '#f4e9d8';
+            if (nextEvent) {
+                const diff = nextEvent.start - now;
+                if (diff <= 0) {
+                    document.getElementById('nextEventName').innerHTML = `✨ Сейчас: ${nextEvent.name}`;
+                    document.getElementById('countdownDisplay').innerHTML = `00:00:00`;
+                } else {
+                    const hours = Math.floor(diff / 60);
+                    const minutes = diff % 60;
+                    document.getElementById('nextEventName').innerHTML = `➡️ ${nextEvent.name} через`;
+                    document.getElementById('countdownDisplay').innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+                }
+            } else {
+                document.getElementById('nextEventName').innerHTML = `✨ Все события завершены`;
+                document.getElementById('countdownDisplay').innerHTML = `--:--:--`;
+            }
+        }
+
+        // ----- основные вычисления -----
+        let cachedIdealPutDown = null;
+        let cachedIdealWake = null;
+
+        function updateIdeal() {
+            const wakeMin = toMinutes(wakeInput.value);
+            if (wakeMin === null) return;
+            const idealNapPutDown = wakeMin + FIRST_WINDOW;
+            const idealNapSleepStart = idealNapPutDown + FALL_ASLEEP_DELAY;
+            const idealNapWakeEarly = idealNapSleepStart + 90;
+            const idealNapWakeLate = idealNapSleepStart + 120;
             
-            barsDiv.appendChild(seg);
+            cachedIdealPutDown = idealNapPutDown;
+            cachedIdealWake = idealNapSleepStart + 105; // середина для подстановки
+
+            document.getElementById('idealNapPutDown').innerText = minutesToTime(idealNapPutDown);
+            document.getElementById('idealNapSleepStart').innerText = minutesToTime(idealNapSleepStart);
+            document.getElementById('idealNapWakeRange').innerHTML = `${minutesToTime(idealNapWakeEarly)} – ${minutesToTime(idealNapWakeLate)} (1,5–2ч сна)`;
+
+            let demoBedtimePutDown = cachedIdealWake + SECOND_WINDOW;
+            if (demoBedtimePutDown >= 1440) demoBedtimePutDown -= 1440;
+            const events = calculateAllEvents(wakeMin, idealNapSleepStart, cachedIdealWake, demoBedtimePutDown);
+            renderSchedule('step1Schedule', events);
+            
+            const nightSleepStart = events.bedtimeSleepStart;
+            const nightEnd = wakeMin + 1440;
+            renderTimeline('step1Graph', demoBedtimePutDown, nightSleepStart, nightEnd, 
+                idealNapPutDown, idealNapSleepStart, cachedIdealWake, events, wakeMin);
         }
-        
-        wrapper.appendChild(hoursDiv);
-        wrapper.appendChild(barsDiv);
-        container.appendChild(wrapper);
-    }
-    
-    // ========== Глобальные переменные ==========
-    let cachedIdealNapStart = null;
-    let cachedIdealNapEnd = null;
-    
-    // Обновление этапа 1 (окно 5ч)
-    function updateStep1() {
-        const wakeStr = document.getElementById('wakeUpTime').value;
-        const wakeMin = toMinutes(wakeStr);
-        if (!wakeMin) return;
-        
-        // Начало дневного сна через 5 часов
-        const idealNapStart = wakeMin + FIRST_WAKE_WINDOW;
-        const idealNapEndEarly = idealNapStart + 90;   // 1,5 ч
-        const idealNapEndLate = idealNapStart + 120;   // 2 ч
-        const idealNapEndMid = idealNapStart + 105;    // 1,75 ч для примера
-        
-        cachedIdealNapStart = idealNapStart;
-        cachedIdealNapEnd = idealNapEndMid;
-        
-        document.getElementById('idealNapStart').innerText = minutesToTime(idealNapStart);
-        document.getElementById('idealNapEndRange').innerHTML = `${minutesToTime(idealNapEndEarly)} – ${minutesToTime(idealNapEndLate)} (1,5–2ч)`;
-        
-        // Для этапа 1 рассчитываем примерный отбой по второму окну 5,5ч
-        let demoBedtime = idealNapEndMid + SECOND_WAKE_WINDOW;
-        if (demoBedtime >= 1440) demoBedtime -= 1440;
-        
-        const events = calculateAllEvents(wakeMin, idealNapStart, idealNapEndMid, demoBedtime);
-        renderSchedule('step1Schedule', events);
-        
-        renderTimeline('step1Graph', 
-            demoBedtime, wakeMin + 1440, 
-            idealNapStart, idealNapEndMid,
-            events, wakeMin);
-    }
-    
-    function setDefaultNapTimes() {
-        if (cachedIdealNapStart !== null && cachedIdealNapEnd !== null) {
-            const napStartInput = document.getElementById('napStartActual');
-            const napEndInput = document.getElementById('napEndActual');
-            if (napStartInput && !napStartInput.dataset.userEdited) {
-                napStartInput.value = minutesToTime(cachedIdealNapStart);
-            }
-            if (napEndInput && !napEndInput.dataset.userEdited) {
-                napEndInput.value = minutesToTime(cachedIdealNapEnd);
+
+        function setDefaultNapTimes() {
+            if (cachedIdealPutDown !== null && cachedIdealWake !== null) {
+                if (!napSleepInput.dataset.userEdited) napSleepInput.value = minutesToTime(cachedIdealPutDown + FALL_ASLEEP_DELAY);
+                if (!napWakeInput.dataset.userEdited) napWakeInput.value = minutesToTime(cachedIdealWake);
             }
         }
-    }
-    
-    function updateFinal() {
-        const wakeStr = document.getElementById('wakeUpTime').value;
-        let napStartStr = document.getElementById('napStartActual').value;
-        let napEndStr = document.getElementById('napEndActual').value;
-        const shortFlag = document.getElementById('shortNapFlag').checked;
-        
-        if (!wakeStr || !napStartStr || !napEndStr) return;
-        
-        const wakeMin = toMinutes(wakeStr);
-        let napStart = toMinutes(napStartStr);
-        let napEnd = toMinutes(napEndStr);
-        
-        if (wakeMin === null || napStart === null || napEnd === null) return;
-        
-        if (napEnd < napStart) napEnd += 24 * 60;
-        let napDur = napEnd - napStart;
-        let isShort = shortFlag || napDur < 60;
-        
-        // Отбой через 5,5 часов после окончания дневного сна
-        let bedtimeRaw = napEnd + SECOND_WAKE_WINDOW;
-        if (isShort) bedtimeRaw -= 45;
-        let bedtime = (bedtimeRaw % 1440 + 1440) % 1440;
-        
-        const events = calculateAllEvents(wakeMin, napStart, napEnd, bedtime);
-        renderSchedule('finalSchedule', events);
-        
-        document.getElementById('finalBedtime').innerText = minutesToTime(bedtime);
-        
-        let expl = `Окончание дневного сна: ${minutesToTime(napEnd)}. +5,5ч = отбой в ${minutesToTime(bedtime)}. `;
-        if (isShort) expl += 'Короткий сон (<1ч) → отбой раньше на 45 мин.';
-        else expl += 'Сон нормальной длины.';
-        document.getElementById('bedtimeExplanation').innerHTML = expl;
-        
-        if (isShort) {
-            document.getElementById('shortNapAdvice').innerHTML = '🕊️ Короткий дневной сон (<1ч): сегодня отбой на 45 мин раньше. Первое окно бодрствования 5ч, второе — 5,5ч.';
-        } else {
-            document.getElementById('shortNapAdvice').innerHTML = '🌙 Дневной сон достаточной длины. Первое окно 5ч (подъём → сон), второе окно 5,5ч (пробуждение → отбой).';
+
+        function updateFinal() {
+            const wakeMin = toMinutes(wakeInput.value);
+            let napSleep = toMinutes(napSleepInput.value);
+            let napWake = toMinutes(napWakeInput.value);
+            if (wakeMin === null || napSleep === null || napWake === null) return;
+
+            // Корректировка, если пробуждение на следующий день
+            if (napWake < napSleep) napWake += 24 * 60;
+            
+            const napDuration = napWake - napSleep;
+            const isShort = shortNapCheck.checked || napDuration < 60;
+
+            // Укладывание на ночной сон = пробуждение от дневного сна + 5,5 часов
+            let bedtimePutDownRaw = napWake + SECOND_WINDOW;
+            if (isShort) bedtimePutDownRaw -= 45;
+            let bedtimePutDown = (bedtimePutDownRaw % 1440 + 1440) % 1440;
+            const bedtimeSleepStart = (bedtimePutDown + FALL_ASLEEP_DELAY) % 1440;
+
+            const events = calculateAllEvents(wakeMin, napSleep, napWake, bedtimePutDown);
+            renderSchedule('finalSchedule', events);
+            
+            document.getElementById('finalBedtime').innerText = minutesToTime(bedtimePutDown);
+            document.getElementById('finalSleepStart').innerText = minutesToTime(bedtimeSleepStart);
+            
+            let explanation = `😴 Засыпание: ${minutesToTime(napSleep)} → 🌤️ Пробуждение: ${minutesToTime(napWake)}<br>`;
+            explanation += `⏱️ Длительность сна: ${Math.round(napDuration)} мин.<br>`;
+            explanation += `📈 +5,5 часа = 🛌 Укладывание на ночной сон: ${minutesToTime(bedtimePutDown)}<br>`;
+            if (isShort) {
+                explanation += `⚠️ Сон короче 1 часа → укладывание сдвинуто на 45 минут РАНЬШЕ.`;
+            } else {
+                explanation += `✅ Сон нормальной длины.`;
+            }
+            document.getElementById('bedtimeExplanation').innerHTML = explanation;
+            document.getElementById('shortNapAdvice').innerHTML = isShort
+                ? '🕊️ Короткий дневной сон (<1ч): сегодня начните укладывать на ночной сон на 45 минут раньше, чтобы избежать переутомления.'
+                : '🌙 Дневной сон достаточной длины. Укладывание на ночной сон через 5,5 часов после пробуждения.';
+
+            const nightEnd = wakeMin + 1440;
+            const napPutDown = napSleep - FALL_ASLEEP_DELAY;
+            renderTimeline('fullDayGraph', bedtimePutDown, bedtimeSleepStart, nightEnd, 
+                napPutDown, napSleep, napWake, events, wakeMin);
+            
+            updateTimer(events, bedtimePutDown, wakeMin);
         }
+
+        function updateCurrentTimeDisplay() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('currentTimeDisplay').innerHTML = `🕒 ${timeStr}`;
+        }
+
+        // ----- автообновление -----
+        let timerInterval = null;
+        function startAutoRefresh() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                updateCurrentTimeDisplay();
+                updateFinal();
+            }, 1000);
+        }
+
+        // ----- обработчики -----
+        wakeInput.addEventListener('change', () => {
+            updateIdeal();
+            if (!napSleepInput.dataset.userEdited) napSleepInput.value = minutesToTime(cachedIdealPutDown + FALL_ASLEEP_DELAY);
+            if (!napWakeInput.dataset.userEdited) napWakeInput.value = minutesToTime(cachedIdealWake);
+            updateFinal();
+        });
         
-        let nightStart = bedtime;
-        let nightEnd = wakeMin + 1440;
-        if (nightEnd < nightStart) nightEnd += 1440;
-        
-        renderTimeline('fullDayGraph', 
-            nightStart, nightEnd, 
-            napStart, napEnd,
-            events, wakeMin);
-    }
-    
-    // ========== Обработчики ==========
-    document.getElementById('calcStep1Btn').addEventListener('click', () => {
-        updateStep1();
-        setDefaultNapTimes();
-    });
-    
-    document.getElementById('calcStep2Btn').addEventListener('click', () => {
-        updateStep1();
+        napSleepInput.addEventListener('focus', () => { napSleepInput.dataset.userEdited = 'true'; });
+        napWakeInput.addEventListener('focus', () => { napWakeInput.dataset.userEdited = 'true'; });
+        napSleepInput.addEventListener('change', () => { updateFinal(); });
+        napWakeInput.addEventListener('change', () => { updateFinal(); });
+        shortNapCheck.addEventListener('change', () => { updateFinal(); });
+
+        // инициализация
+        updateIdeal();
         setDefaultNapTimes();
         updateFinal();
-    });
-    
-    const napStartInput = document.getElementById('napStartActual');
-    const napEndInput = document.getElementById('napEndActual');
-    
-    napStartInput.addEventListener('focus', () => {
-        napStartInput.dataset.userEdited = 'true';
-    });
-    napEndInput.addEventListener('focus', () => {
-        napEndInput.dataset.userEdited = 'true';
-    });
-    
-    document.getElementById('wakeUpTime').addEventListener('change', () => {
-        updateStep1();
-        if (!napStartInput.dataset.userEdited) {
-            napStartInput.value = minutesToTime(cachedIdealNapStart);
-        }
-        if (!napEndInput.dataset.userEdited) {
-            napEndInput.value = minutesToTime(cachedIdealNapEnd);
-        }
-        updateFinal();
-    });
-    
-    // Инициализация
-    updateStep1();
-    setDefaultNapTimes();
-    updateFinal();
+        updateCurrentTimeDisplay();
+        startAutoRefresh();
+    })();
 </script>
 </body>
 </html>
