@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title> Здоровый сон </title>
+    <title>Арина · Умный режим | Настраиваемые окна бодрствования</title>
     <style>
         * {
             box-sizing: border-box;
@@ -108,6 +108,38 @@
             font-size: 0.75rem;
             font-weight: 600;
             margin-bottom: 20px;
+        }
+        .settings-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 28px;
+            background: #f8f5ed;
+            padding: 20px 24px;
+            border-radius: 48px;
+        }
+        .setting-group {
+            flex: 1;
+            min-width: 160px;
+        }
+        .setting-group label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #47663a;
+            font-size: 0.85rem;
+        }
+        .setting-group input {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 1rem;
+            font-family: monospace;
+            border: 1.5px solid #e2d4c2;
+            border-radius: 60px;
+            background: white;
+            text-align: center;
         }
         .input-row {
             display: flex;
@@ -288,9 +320,16 @@
             margin: 4px 6px 4px 0;
             font-weight: 500;
         }
+        .reset-windows {
+            background: #d9cfbd;
+            color: #4f6342;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
         @media (max-width: 700px) {
             .card { padding: 20px; }
-            .input-row { flex-direction: column; gap: 16px; }
+            .input-row, .settings-row { flex-direction: column; gap: 16px; }
             .schedule-grid { grid-template-columns: 1fr; }
             .floating-timer { flex-direction: column; align-items: stretch; text-align: center; }
             .countdown { font-size: 1.2rem; text-align: center; }
@@ -308,23 +347,36 @@
 
 <div class="wrapper">
     <div class="card">
-        <h1>🌼 Умный режим дня <small> для 2 лет </small></h1>
+        <h1>🌼 Арина · Умный режим дня <small>2 года 4 месяца</small></h1>
         <div class="sub">
-            ⏱️ Окна бодрствования: 
-            <span class="window-highlight">📈 5 часов (подъём → начало укладывания на дневной сон)</span>
-            <span class="window-highlight">📈 5,5 часов (пробуждение от дневного сна → начало укладывания на ночной сон)</span>
+            ⏱️ Настраиваемые окна бодрствования:
+            <span class="window-highlight" id="firstWindowLabel">📈 5 часов (подъём → укладывание на дневной сон)</span>
+            <span class="window-highlight" id="secondWindowLabel">📈 5,5 часов (пробуждение → укладывание на ночной сон)</span>
             <span class="window-highlight">😴 Засыпание через 30 минут после укладывания</span>
+        </div>
+
+        <!-- Настройки окон бодрствования -->
+        <div class="settings-row">
+            <div class="setting-group">
+                <label>⏱️ Первое окно (подъём → укладывание на дневной сон)</label>
+                <input type="number" id="firstWindowHours" step="0.1" min="3" max="8" value="5"> часов
+            </div>
+            <div class="setting-group">
+                <label>⏱️ Второе окно (пробуждение → укладывание на ночной сон)</label>
+                <input type="number" id="secondWindowHours" step="0.1" min="3" max="8" value="5.5"> часов
+            </div>
+            <button id="resetWindowsBtn" class="reset-windows">⟳ Сбросить окна</button>
         </div>
 
         <div class="info-box">
             💡 <strong>Важно:</strong> «Укладывание» — это момент, когда вы выключаете свет и ребёнок лежит в кроватке.<br>
             😴 <strong>Засыпание</strong> происходит через 30 минут после укладывания.<br>
             📊 <strong>Для дневного сна</strong> вы вводите фактическое время ЗАСЫПАНИЯ и ПРОБУЖДЕНИЯ.<br>
-            📋 <strong>Порядок дня:</strong> Завтрак → Утренняя прогулка → Обед → Укладывание на дневной сон → Засыпание → Полдник → Вечерняя прогулка → Ужин → Укладывание на ночной сон
+            📋 Окна бодрствования можно менять — все расчёты обновятся автоматически.
         </div>
 
         <!-- ЭТАП 1 -->
-        <div class="step-badge">📌 Ориентир по утру (окно 5ч до укладывания)</div>
+        <div class="step-badge">📌 Ориентир по утру</div>
         <div class="input-row">
             <div class="input-group">
                 <label>🌞 Утренний подъём (фиксированная цель)</label>
@@ -334,7 +386,7 @@
         </div>
         <div id="step1Result" class="result-panel">
             <h3>🌙 Первичный график (по подъёму)</h3>
-            <p>🕒 <strong>Начало укладывания на дневной сон</strong> (через 5ч после подъёма): <span id="idealNapPutDown" class="time-badge">—:—</span><br>
+            <p>🕒 <strong>Начало укладывания на дневной сон</strong>: <span id="idealNapPutDown" class="time-badge">—:—</span><br>
             <span class="time-badge-small">😴 Ожидаемое засыпание: <span id="idealNapSleepStart">—:—</span> (+30 мин)</span><br>
             <span class="time-badge-small">🌤️ Ожидаемое пробуждение: <span id="idealNapWakeRange" class="time-badge">—:—</span> (через 1,5–2ч после засыпания)</span></p>
             <div id="step1Schedule" class="schedule-grid"></div>
@@ -367,7 +419,7 @@
             <div id="finalSchedule" class="schedule-grid"></div>
             <p>🛌 <strong>Начало укладывания на ночной сон</strong>: <span id="finalBedtime" class="time-badge">—:—</span><br>
             <span class="time-badge-small">😴 Ожидаемое засыпание: <span id="finalSleepStart">—:—</span> (+30 мин)</span><br>
-            <span class="note">(через 5,5 часов после ПРОБУЖДЕНИЯ от дневного сна)</span></p>
+            <span class="note">(через <span id="secondWindowValue">5.5</span> часов после ПРОБУЖДЕНИЯ от дневного сна)</span></p>
             <p id="bedtimeExplanation" style="font-size:0.9rem; background:#eef3e8; padding:10px 16px; border-radius:28px; margin:12px 0;"></p>
             <div id="shortNapAdvice" style="background:#fbeed8; border-radius: 24px; padding: 12px 16px; margin: 12px 0;"></div>
             <div class="graph-container" id="fullDayGraph"></div>
@@ -380,13 +432,6 @@
                 <div><span style="background:#e6d9c8;"></span> 🛌 Укладывание (30 мин до засыпания)</div>
                 <div><span style="background:#f4e0b2;"></span> ⏰ Бодрствование</div>
             </div>
-            <div class="note" style="margin-top: 14px;">
-                🕯️ <strong>Важно:</strong><br>
-                • Дневной сон: вы вводите фактическое ЗАСЫПАНИЕ и ПРОБУЖДЕНИЕ<br>
-                • Ночной сон: укладывание = пробуждение от дневного сна + 5,5 часов<br>
-                • Засыпание ожидается через 30 минут после укладывания<br>
-                • Ритуал начинайте за 30–40 минут до укладывания
-            </div>
         </div>
     </div>
 </div>
@@ -394,17 +439,70 @@
 <script>
     (function(){
         // ----- константы -----
-        const FIRST_WINDOW = 5 * 60;        // 5 часов до укладывания на дневной сон
-        const SECOND_WINDOW = 5.5 * 60;     // 5.5 часов от пробуждения до укладывания на ночной сон
         const FALL_ASLEEP_DELAY = 30;       // 30 минут до засыпания
+        const STORAGE_KEY = 'arina_wake_windows';
 
         // ----- DOM элементы -----
         const wakeInput = document.getElementById('wakeUpTime');
         const napSleepInput = document.getElementById('napSleepActual');
         const napWakeInput = document.getElementById('napWakeActual');
         const shortNapCheck = document.getElementById('shortNapFlag');
+        const firstWindowInput = document.getElementById('firstWindowHours');
+        const secondWindowInput = document.getElementById('secondWindowHours');
+        const resetWindowsBtn = document.getElementById('resetWindowsBtn');
+        const secondWindowValueSpan = document.getElementById('secondWindowValue');
+        const firstWindowLabel = document.getElementById('firstWindowLabel');
+        const secondWindowLabel = document.getElementById('secondWindowLabel');
 
-        // ----- вспомогательные функции -----
+        // ----- текущие значения окон -----
+        let firstWindowHours = 5;
+        let secondWindowHours = 5.5;
+
+        // ----- загрузка сохранённых значений -----
+        function loadWindowsFromStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.firstWindow !== undefined) firstWindowHours = data.firstWindow;
+                    if (data.secondWindow !== undefined) secondWindowHours = data.secondWindow;
+                } catch(e) {}
+            }
+            firstWindowInput.value = firstWindowHours;
+            secondWindowInput.value = secondWindowHours;
+            updateWindowLabels();
+        }
+
+        function saveWindowsToStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                firstWindow: firstWindowHours,
+                secondWindow: secondWindowHours
+            }));
+        }
+
+        function updateWindowLabels() {
+            firstWindowLabel.innerHTML = `📈 ${firstWindowHours} ${getHoursWord(firstWindowHours)} (подъём → укладывание на дневной сон)`;
+            secondWindowLabel.innerHTML = `📈 ${secondWindowHours} ${getHoursWord(secondWindowHours)} (пробуждение → укладывание на ночной сон)`;
+            secondWindowValueSpan.innerText = secondWindowHours;
+        }
+
+        function getHoursWord(hours) {
+            const num = Math.floor(hours);
+            if (num === 1) return 'час';
+            if (num >= 2 && num <= 4) return 'часа';
+            return 'часов';
+        }
+
+        // ----- получение минут из часов -----
+        function getFirstWindowMinutes() {
+            return firstWindowHours * 60;
+        }
+
+        function getSecondWindowMinutes() {
+            return secondWindowHours * 60;
+        }
+
+        // ----- вспомогательные функции времени -----
         function toMinutes(timeStr) {
             if (!timeStr) return null;
             let parts = timeStr.split(':');
@@ -434,50 +532,39 @@
         }
 
         // ----- расчёт всех событий -----
-        // wakeMin - подъём
-        // napSleepMin - время засыпания (дневной сон)
-        // napWakeMin - время пробуждения (дневной сон)
-        // bedtimePutDownMin - начало укладывания на ночной сон
         function calculateAllEvents(wakeMin, napSleepMin, napWakeMin, bedtimePutDownMin) {
             if (wakeMin === null) return null;
             
-            // Укладывание на дневной сон = засыпание - 30 минут
             const napPutDownMin = napSleepMin !== null ? napSleepMin - FALL_ASLEEP_DELAY : null;
             const bedtimeSleepStart = bedtimePutDownMin !== null ? bedtimePutDownMin + FALL_ASLEEP_DELAY : null;
             
-            // Завтрак: через 30 мин после подъёма, 30 мин
             const breakfastStart = wakeMin + 30;
             const breakfastEnd = breakfastStart + 30;
 
-            // Утренняя прогулка: заканчивается за 1.5 часа до УКЛАДЫВАНИЯ на дневной сон
             let morningWalkStart = null, morningWalkEnd = null;
             if (napPutDownMin !== null) {
                 morningWalkEnd = napPutDownMin - 90;
                 morningWalkStart = morningWalkEnd - 75;
             }
 
-            // Обед: за 30 мин до УКЛАДЫВАНИЯ на дневной сон, 30 мин
             let lunchStart = null, lunchEnd = null;
             if (napPutDownMin !== null) {
                 lunchStart = napPutDownMin - 30;
                 lunchEnd = lunchStart + 30;
             }
 
-            // Полдник: через 30 мин после ПРОБУЖДЕНИЯ от дневного сна, 30 мин
             let snackStart = null, snackEnd = null;
             if (napWakeMin !== null) {
                 snackStart = napWakeMin + 30;
                 snackEnd = snackStart + 30;
             }
 
-            // Вечерняя прогулка: заканчивается за 1.5 часа до УКЛАДЫВАНИЯ на ночной сон
             let eveningWalkStart = null, eveningWalkEnd = null;
             if (bedtimePutDownMin !== null) {
                 eveningWalkEnd = bedtimePutDownMin - 90;
                 eveningWalkStart = eveningWalkEnd - 75;
             }
 
-            // Ужин: за 1 час до УКЛАДЫВАНИЯ на ночной сон, 30 мин
             let dinnerStart = null, dinnerEnd = null;
             if (bedtimePutDownMin !== null) {
                 dinnerStart = bedtimePutDownMin - 60;
@@ -571,25 +658,21 @@
 
                 let type = 'wake';
 
-                // Ночной сон (от засыпания до утра)
                 if (nightSleepStart !== null && nightEnd !== null) {
                     let startN = nightSleepStart;
                     let endN = nightEnd;
                     if (endN < startN) endN += 24 * 60;
                     if (segStart < endN && segEnd > startN) type = 'night';
                 }
-                // Укладывание перед ночным сном (30 мин)
                 if (type !== 'night' && nightPutDownMin !== null) {
                     let startPD = nightPutDownMin;
                     let endPD = nightPutDownMin + FALL_ASLEEP_DELAY;
                     if (endPD < startPD) endPD += 24 * 60;
                     if (segStart < endPD && segEnd > startPD) type = 'putdown';
                 }
-                // Дневной сон
                 if (type !== 'night' && type !== 'putdown' && daySleepStart !== null && dayEnd !== null) {
                     if (segStart < dayEnd && segEnd > daySleepStart) type = 'day';
                 }
-                // Укладывание на дневной сон
                 if (type !== 'night' && type !== 'putdown' && type !== 'day' && dayPutDownMin !== null) {
                     let startPD = dayPutDownMin;
                     let endPD = dayPutDownMin + FALL_ASLEEP_DELAY;
@@ -710,19 +793,19 @@
         function updateIdeal() {
             const wakeMin = toMinutes(wakeInput.value);
             if (wakeMin === null) return;
-            const idealNapPutDown = wakeMin + FIRST_WINDOW;
+            const idealNapPutDown = wakeMin + getFirstWindowMinutes();
             const idealNapSleepStart = idealNapPutDown + FALL_ASLEEP_DELAY;
             const idealNapWakeEarly = idealNapSleepStart + 90;
             const idealNapWakeLate = idealNapSleepStart + 120;
             
             cachedIdealPutDown = idealNapPutDown;
-            cachedIdealWake = idealNapSleepStart + 105; // середина для подстановки
+            cachedIdealWake = idealNapSleepStart + 105;
 
             document.getElementById('idealNapPutDown').innerText = minutesToTime(idealNapPutDown);
             document.getElementById('idealNapSleepStart').innerText = minutesToTime(idealNapSleepStart);
             document.getElementById('idealNapWakeRange').innerHTML = `${minutesToTime(idealNapWakeEarly)} – ${minutesToTime(idealNapWakeLate)} (1,5–2ч сна)`;
 
-            let demoBedtimePutDown = cachedIdealWake + SECOND_WINDOW;
+            let demoBedtimePutDown = cachedIdealWake + getSecondWindowMinutes();
             if (demoBedtimePutDown >= 1440) demoBedtimePutDown -= 1440;
             const events = calculateAllEvents(wakeMin, idealNapSleepStart, cachedIdealWake, demoBedtimePutDown);
             renderSchedule('step1Schedule', events);
@@ -746,14 +829,12 @@
             let napWake = toMinutes(napWakeInput.value);
             if (wakeMin === null || napSleep === null || napWake === null) return;
 
-            // Корректировка, если пробуждение на следующий день
             if (napWake < napSleep) napWake += 24 * 60;
             
             const napDuration = napWake - napSleep;
             const isShort = shortNapCheck.checked || napDuration < 60;
 
-            // Укладывание на ночной сон = пробуждение от дневного сна + 5,5 часов
-            let bedtimePutDownRaw = napWake + SECOND_WINDOW;
+            let bedtimePutDownRaw = napWake + getSecondWindowMinutes();
             if (isShort) bedtimePutDownRaw -= 45;
             let bedtimePutDown = (bedtimePutDownRaw % 1440 + 1440) % 1440;
             const bedtimeSleepStart = (bedtimePutDown + FALL_ASLEEP_DELAY) % 1440;
@@ -766,7 +847,7 @@
             
             let explanation = `😴 Засыпание: ${minutesToTime(napSleep)} → 🌤️ Пробуждение: ${minutesToTime(napWake)}<br>`;
             explanation += `⏱️ Длительность сна: ${Math.round(napDuration)} мин.<br>`;
-            explanation += `📈 +5,5 часа = 🛌 Укладывание на ночной сон: ${minutesToTime(bedtimePutDown)}<br>`;
+            explanation += `📈 +${secondWindowHours} часа = 🛌 Укладывание на ночной сон: ${minutesToTime(bedtimePutDown)}<br>`;
             if (isShort) {
                 explanation += `⚠️ Сон короче 1 часа → укладывание сдвинуто на 45 минут РАНЬШЕ.`;
             } else {
@@ -775,7 +856,7 @@
             document.getElementById('bedtimeExplanation').innerHTML = explanation;
             document.getElementById('shortNapAdvice').innerHTML = isShort
                 ? '🕊️ Короткий дневной сон (<1ч): сегодня начните укладывать на ночной сон на 45 минут раньше, чтобы избежать переутомления.'
-                : '🌙 Дневной сон достаточной длины. Укладывание на ночной сон через 5,5 часов после пробуждения.';
+                : `🌙 Дневной сон достаточной длины. Укладывание на ночной сон через ${secondWindowHours} часов после пробуждения.`;
 
             const nightEnd = wakeMin + 1440;
             const napPutDown = napSleep - FALL_ASLEEP_DELAY;
@@ -791,6 +872,22 @@
             document.getElementById('currentTimeDisplay').innerHTML = `🕒 ${timeStr}`;
         }
 
+        function resetWindows() {
+            firstWindowHours = 5;
+            secondWindowHours = 5.5;
+            firstWindowInput.value = firstWindowHours;
+            secondWindowInput.value = secondWindowHours;
+            updateWindowLabels();
+            saveWindowsToStorage();
+            fullRefresh();
+        }
+
+        function fullRefresh() {
+            updateIdeal();
+            setDefaultNapTimes();
+            updateFinal();
+        }
+
         // ----- автообновление -----
         let timerInterval = null;
         function startAutoRefresh() {
@@ -802,6 +899,24 @@
         }
 
         // ----- обработчики -----
+        function handleWindowsChange() {
+            firstWindowHours = parseFloat(firstWindowInput.value) || 5;
+            secondWindowHours = parseFloat(secondWindowInput.value) || 5.5;
+            if (firstWindowHours < 3) firstWindowHours = 3;
+            if (firstWindowHours > 8) firstWindowHours = 8;
+            if (secondWindowHours < 3) secondWindowHours = 3;
+            if (secondWindowHours > 8) secondWindowHours = 8;
+            firstWindowInput.value = firstWindowHours;
+            secondWindowInput.value = secondWindowHours;
+            updateWindowLabels();
+            saveWindowsToStorage();
+            fullRefresh();
+        }
+
+        firstWindowInput.addEventListener('change', handleWindowsChange);
+        secondWindowInput.addEventListener('change', handleWindowsChange);
+        resetWindowsBtn.addEventListener('click', resetWindows);
+
         wakeInput.addEventListener('change', () => {
             updateIdeal();
             if (!napSleepInput.dataset.userEdited) napSleepInput.value = minutesToTime(cachedIdealPutDown + FALL_ASLEEP_DELAY);
@@ -816,6 +931,7 @@
         shortNapCheck.addEventListener('change', () => { updateFinal(); });
 
         // инициализация
+        loadWindowsFromStorage();
         updateIdeal();
         setDefaultNapTimes();
         updateFinal();
